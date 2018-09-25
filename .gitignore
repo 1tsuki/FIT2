@@ -1,2 +1,4 @@
 /.idea/
-/examinator/.students
+.students
+*.html
+*.css
