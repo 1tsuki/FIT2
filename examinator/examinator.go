@@ -21,13 +21,13 @@ type Examinator struct {
 	pget *pget.Pget
 }
 
-func NewExaminator(filepath string) (*Examinator, error) {
+func NewExaminator(parallel int, timeout time.Duration, filepath string) (*Examinator, error) {
 	students, err := readLines(filepath)
 	if err != nil {
 		return nil, err
 	}
 
-	pget := pget.NewPget(10, 30 * time.Second)
+	pget := pget.NewPget(parallel, timeout)
 
 	return &Examinator{
 		students,
