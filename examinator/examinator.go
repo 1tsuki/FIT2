@@ -6,6 +6,7 @@ import (
 	"github.com/1tsuki/pget"
 	"github.com/pkg/errors"
 	"io"
+	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -35,7 +36,7 @@ func NewExaminator(parallel int, timeout time.Duration, filepath string) (*Exami
 	}, nil
 }
 
-func (f *Examinator) Download(filename string, callback func(*url.URL, io.Reader) error) error {
+func (f *Examinator) Download(filename string, callback func(*url.URL, *http.Response) error) error {
 	urls, err := f.getUrls(filename)
 	if err != nil {
 		return err
