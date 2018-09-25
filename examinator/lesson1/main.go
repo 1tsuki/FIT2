@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bufio"
 	"flag"
 	"fmt"
 	"github.com/pkg/errors"
@@ -13,6 +12,7 @@ import (
 	"time"
 
 	"github.com/1tsuki/pget"
+	"github.com/1tsuki/FIT2/examinator"
 )
 
 var writer io.Writer
@@ -38,6 +38,7 @@ func run(strArgs []string) int {
 	flags.StringVar(&list, "s", "./.students", "list of students login ids")
 	flags.Parse(strArgs)
 
+	ex, err := examinator.NewExaminator(list)
 	students, err := readLines(list)
 	if err != nil {
 		printf("error parsing students list")
@@ -160,48 +161,6 @@ func checkCSS(url *url.URL, body io.Reader) error {
 	defer resp.Body.Close()
 
 	return saveFile(filepath.Join(loginName, "csscheck.html"), resp.Body)
-}
-
-func extractLoginName(url *url.URL) string {
-	path := url.Path
-	// TODO improve
-	return path[2:10]
-}
-
-func extractFileName(url *url.URL) string {
-	return filepath.Base(url.String())
-}
-
-func saveFile(filepath string, body io.Reader) error {
-	// create file
-	out, err := os.Create(filepath)
-	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("failed creating file %s", filepath))
-	}
-	defer out.Close()
-
-	// write response
-	_, err = io.Copy(out, body)
-	if err != nil {
-		return errors.Wrap(err, fmt.Sprintf("failed writing file %s", filepath))
-	}
-
-	return nil
-}
-
-func readLines(filepath string) ([]string, error) {
-	file, err := os.Open(filepath)
-	if err != nil {
-		return nil, errors.Wrap(err, fmt.Sprintf("failed loading file %s", filepath))
-	}
-	defer file.Close()
-
-	var lines []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		lines = append(lines, scanner.Text())
-	}
-	return lines, errors.Wrap(scanner.Err(), fmt.Sprintf("failed scanning file %s", filepath))
 }
 
 func printf(format string, a ... interface{}) {
