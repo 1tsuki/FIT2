@@ -1,0 +1,20 @@
+h1 { /* 見出し */
+    border-bottom: 1px solid #eee; /* 下線を表示 */
+}
+
+table { /* 表全体 */
+    border-collapse: collapse; /* 隣接するセルの枠は重ねて表示 */
+    border-color: grey; /* 枠線をグレーに定義 */
+    text-align: center; /* 文字を中央寄せ */
+}
+
+th { /* 見出しセル */
+    font-weight: bold; /* 文字を太字に */
+    border: 2px solid #ddd; /* 枠線を2ピクセル幅に */
+    background-color: lightgray; /* 背景色を薄いグレー化 */
+}
+
+td { /* 通常セル */
+    border: 1px solid #ddd; /* 枠線を1ピクセル幅に */
+}
+
