@@ -72,6 +72,10 @@ func ExtractFileName(url *url.URL) string {
 	return filepath.Base(url.String())
 }
 
+func Format(timestamp time.Time) string {
+	return timestamp.Format("2018-10-02 11:50:00")
+}
+
 func SaveFile(filepath string, body io.Reader) error {
 	// create file
 	out, err := os.Create(filepath)
