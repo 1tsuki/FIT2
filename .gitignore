@@ -1,4 +1,5 @@
 /.idea/
+/examinator/.idea/
 /examinator/**/*.html
 /examinator/**/*.css
 .students
