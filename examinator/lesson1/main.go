@@ -67,12 +67,13 @@ func run(strArgs []string) int {
 }
 
 func checkHTML(url *url.URL, resp *http.Response) error {
-	if resp.StatusCode == http.StatusNotFound {
+	switch resp.StatusCode {
+	case http.StatusNotFound, http.StatusForbidden:
 		printf("file did not exist: %s\n", url.String())
 		return nil
+	default:
+		printf("downloaded file %s\n", url.String())
 	}
-
-	printf("downloaded file %s\n", url.String())
 
 	loginName := examinator.ExtractLoginId(url)
 	fileName := examinator.ExtractFileName(url)
@@ -98,11 +99,14 @@ func checkHTML(url *url.URL, resp *http.Response) error {
 }
 
 func checkCSS(url *url.URL, resp *http.Response) error {
-	if resp.StatusCode == http.StatusNotFound {
+	switch resp.StatusCode {
+	case http.StatusNotFound, http.StatusForbidden:
 		printf("file did not exist: %s\n", url.String())
 		return nil
+	default:
+		printf("downloaded file %s\n", url.String())
 	}
-	printf("downloaded file %s\n", url.String())
+
 	loginName := examinator.ExtractLoginId(url)
 	fileName := examinator.ExtractFileName(url)
 	os.Mkdir(loginName, os.FileMode(777))
