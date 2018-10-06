@@ -1,26 +1,28 @@
-var val = 0;
+var value = 0;
+
 function reset() {
-    val = 0;
-    alert(val);
+    value = 0;
+    alert(value);
 }
 
 function add() {
-    val += 1;
-    alert(val);
+    value += 1;
+    alert(value);
 }
 
 function subtract() {
-    val -= 1;
-    alert(val);
+    value -= 1;
+    alert(value);
 }
 
 
 function multiple() {
-    val *= 2;
-    alert(val);
+    value *= 2;
+    alert(value);
 }
 
 function divide() {
-    val /= 2;
-    alert(val);
+    value /= 2;
+    alert(value);
 }
+
