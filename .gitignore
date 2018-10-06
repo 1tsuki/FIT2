@@ -2,5 +2,6 @@
 /examinator/.idea/
 /examinator/**/*.html
 /examinator/**/*.css
+/examinator/**/*.js
 .students
 .DS_Store
