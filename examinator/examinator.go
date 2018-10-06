@@ -3,14 +3,15 @@ package examinator
 import (
 	"bufio"
 	"fmt"
-	"github.com/1tsuki/pget"
-	"github.com/pkg/errors"
 	"io"
 	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/1tsuki/pget"
+	"github.com/pkg/errors"
 )
 
 const (
@@ -19,7 +20,7 @@ const (
 
 type Examinator struct {
 	loginIds []string
-	pget *pget.Pget
+	pget     *pget.Pget
 }
 
 func NewExaminator(parallel int, timeout time.Duration, filepath string) (*Examinator, error) {
@@ -72,7 +73,7 @@ func ExtractFileName(url *url.URL) string {
 	return filepath.Base(url.String())
 }
 
-func Format(timestamp time.Time) string {
+func FormatTime(timestamp time.Time) string {
 	return timestamp.Format("2018-10-02 11:50:00")
 }
 
