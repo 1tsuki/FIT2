@@ -74,7 +74,7 @@ func ExtractFileName(url *url.URL) string {
 }
 
 func FormatTime(timestamp time.Time) string {
-	return timestamp.Format("2018-10-02 11:50:00")
+	return timestamp.Format(time.RFC3339)
 }
 
 func SaveFile(filepath string, body io.Reader) error {
