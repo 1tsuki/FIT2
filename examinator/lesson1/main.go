@@ -3,17 +3,22 @@ package main
 import (
 	"flag"
 	"fmt"
-	"github.com/1tsuki/FIT2/examinator"
-	"github.com/pkg/errors"
 	"io"
 	"net/http"
 	"net/url"
 	"os"
 	"path/filepath"
 	"time"
+
+	"github.com/1tsuki/FIT2/examinator"
+	"github.com/pkg/errors"
 )
 
-var writer io.Writer
+var (
+	writer  io.Writer
+	clock   time.Time
+	baseDir string
+)
 
 const (
 	exitCodeOK = iota
@@ -23,6 +28,7 @@ const (
 
 func init() {
 	writer = os.Stdout
+	clock = time.Now()
 }
 func main() {
 	os.Exit(run(os.Args[1:]))
@@ -30,14 +36,17 @@ func main() {
 func run(strArgs []string) int {
 	var (
 		parallel int
-		list string
+		list     string
 	)
 	flags := flag.NewFlagSet("lesson1", flag.ContinueOnError)
 	flags.IntVar(&parallel, "p", 10, "number of download pipelines")
 	flags.StringVar(&list, "s", "../.students", "list of students login ids")
 	flags.Parse(strArgs)
 
-	ex, err := examinator.NewExaminator(parallel, 30 * time.Second, list)
+	baseDir = examinator.FormatTime(clock)
+	os.Mkdir(baseDir, os.FileMode(0777))
+
+	ex, err := examinator.NewExaminator(parallel, 30*time.Second, list)
 	if err != nil {
 		printf("error parsing student list: %v", err)
 		return exitCodeInvalidOption
@@ -77,9 +86,9 @@ func checkHTML(url *url.URL, resp *http.Response) error {
 
 	loginName := examinator.ExtractLoginId(url)
 	fileName := examinator.ExtractFileName(url)
-	os.Mkdir(loginName, os.FileMode(0777))
+	os.Mkdir(filepath.Join(baseDir, loginName), os.FileMode(0777))
 
-	err := examinator.SaveFile(filepath.Join(loginName, fileName), resp.Body)
+	err := examinator.SaveFile(filepath.Join(baseDir, loginName, fileName), resp.Body)
 	if err != nil {
 		return err
 	}
@@ -95,7 +104,7 @@ func checkHTML(url *url.URL, resp *http.Response) error {
 	}
 	defer resp2.Body.Close()
 
-	return examinator.SaveFile(filepath.Join(loginName, fileName + "_htmlcheck.html"), resp2.Body)
+	return examinator.SaveFile(filepath.Join(baseDir, loginName, fileName+"_htmlcheck.html"), resp2.Body)
 }
 
 func checkCSS(url *url.URL, resp *http.Response) error {
@@ -109,9 +118,9 @@ func checkCSS(url *url.URL, resp *http.Response) error {
 
 	loginName := examinator.ExtractLoginId(url)
 	fileName := examinator.ExtractFileName(url)
-	os.Mkdir(loginName, os.FileMode(777))
+	os.Mkdir(filepath.Join(baseDir, loginName), os.FileMode(777))
 
-	err := examinator.SaveFile(filepath.Join(loginName, fileName), resp.Body)
+	err := examinator.SaveFile(filepath.Join(baseDir, loginName, fileName), resp.Body)
 	if err != nil {
 		return err
 	}
@@ -128,7 +137,7 @@ func checkCSS(url *url.URL, resp *http.Response) error {
 	}
 	defer resp2.Body.Close()
 
-	return examinator.SaveFile(filepath.Join(loginName, fileName + "_csscheck.html"), resp2.Body)
+	return examinator.SaveFile(filepath.Join(baseDir, loginName, fileName+"_csscheck.html"), resp2.Body)
 }
 
 func printf(format string, a ... interface{}) {
