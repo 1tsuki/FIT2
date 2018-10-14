@@ -1,5 +1,5 @@
 function fortune() {
-    num = Math.random();
+    var num = Math.random();
 
     if (num < 0.1) {
         alert("凶");
@@ -11,3 +11,6 @@ function fortune() {
         alert("大吉");
     }
 }
+
+
+

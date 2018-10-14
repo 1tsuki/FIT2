@@ -21,3 +21,4 @@ function checkClass() {
             alert("出社日");
     }
 }
+
