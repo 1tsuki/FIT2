@@ -13,13 +13,3 @@ for (var i = 0; i < n; i++) {
 
 var pi = 4 * m / n;
 alert(pi);
-
-
-
-if (m % 2 == 0) {
-    alert("偶数です");
-} else {
-    alert("奇数です");
-}
-
-
