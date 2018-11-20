@@ -9,18 +9,13 @@ function reset() {
 function changeCcc() {
     var cccs = document.getElementsByClassName("ccc");
     for (var i = 0; i < cccs.length; i++) {
-        cccs[i].innerHTML = getValue();
+        cccs[i].innerHTML = document.getElementById('val').value;
     }
 }
 
 function changeAaaBbb() {
     var aaabbbs = document.getElementsByClassName("aaa bbb");
     for (var i = 0; i < aaabbbs.length; i++) {
-        aaabbbs[i].innerHTML = getValue();
+        aaabbbs[i].innerHTML = document.getElementById('val').value;
     }
-}
-
-function getValue() {
-    var elem = document.getElementById('val');
-    return elem.value;
 }
